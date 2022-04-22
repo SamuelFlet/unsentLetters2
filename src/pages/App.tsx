@@ -1,11 +1,17 @@
 import React from "react";
 import "../styles/App.css";
 import { useQuery, gql } from "@apollo/client";
+import Login from '../components/login';
 
 const HELLO = gql`
-  query Hello {
-    hello
+  query getAllPosts{
+  getAllPosts{
+    title
+    author{
+      name
+    }
   }
+}
 `;
 
 function App() {
@@ -16,7 +22,12 @@ function App() {
 
   return (
     <div className="App">
-      {data.hello}
+      <Login/>
+      {data.getAllPosts.map(dog => (
+        <div key={dog.title}>
+          {dog.title}: {dog.author.name}
+        </div>
+      ))}
     </div>
   );
 }

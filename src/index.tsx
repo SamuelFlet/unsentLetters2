@@ -7,11 +7,27 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  useQuery,
-  gql,
+  createHttpLink,
 } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context';
+import { AUTH_TOKEN } from "./constants";
+
+const httpLink = createHttpLink({
+  uri: 'https://unsent-letters.herokuapp.com/graphql'
+})
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem(AUTH_TOKEN);
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  };
+});
 
 const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   uri: "https://unsent-letters.herokuapp.com/graphql",
   cache: new InMemoryCache(),
 });
