@@ -45,7 +45,7 @@ const Login = () => {
       localStorage.setItem(AUTH_TOKEN, signup.token);
     },
   });
-
+  const signout = localStorage.setItem(AUTH_TOKEN, "");
   return (
     <div>
       <h4 className="mv3">{formState.login ? "Login" : "Sign Up"}</h4>
@@ -105,6 +105,9 @@ const Login = () => {
           {formState.login
             ? "need to create an account?"
             : "already have an account?"}
+        </button>
+        <button className="pointer button" onClick={(e) => signout}>
+          Sign Out
         </button>
       </div>
     </div>

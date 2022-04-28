@@ -7,6 +7,7 @@ import { AUTH_TOKEN } from "../constants";
 const HELLO = gql`
   query getAllPosts {
     getAllPosts {
+      id
       title
       author {
         name
@@ -20,23 +21,25 @@ function App() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
+
   if (localStorage.getItem(AUTH_TOKEN)) {
     return (
       <div className="App">
         <Login />
         {data.getAllPosts.map((dog) => (
-          <div key={dog.title}>
+          <div key={dog.id}>
             {dog.title}: {dog.author.name}
           </div>
         ))}
       </div>
     );
-  }else{
-    return(
-      <div>
-        poop
+  } else {
+    return (
+      <div className="App">
+        <Login />
+        This shows when you are not signed in
       </div>
-    )
+    );
   }
 }
 
